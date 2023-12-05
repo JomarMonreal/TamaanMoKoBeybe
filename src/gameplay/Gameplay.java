@@ -1,5 +1,6 @@
 package gameplay;
 
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -34,6 +35,7 @@ public class Gameplay {
 		this.stage.setScene( this.splashScene );
         this.stage.setResizable(false);
 		this.stage.show();
+		this.setGame(stage);
 	}
 	
 	private void initSplash(Stage stage) {
@@ -42,12 +44,23 @@ public class Gameplay {
         this.splashScene = new Scene(root);
 	}
 	
+	void setGame(Stage stage) {
+        stage.setScene( this.gameScene );	
+        
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();	// we will pass this gc to be able to draw on this Game's canvas
+        
+        GameplayTimer gameTimer = new GameplayTimer(gc, gameScene);
+        gameTimer.start();			// this internally calls the handle() method of our GameTimer
+        
+	}	
+	
 	private Canvas createCanvas() {
     	Canvas canvas = new Canvas(Gameplay.WINDOW_WIDTH,Gameplay.WINDOW_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        Image bg = new Image("images/background_example.png");
+        Image bg = new Image("images/somethings.jpg");
         gc.drawImage(bg, 0,0,Gameplay.WINDOW_WIDTH,Gameplay.WINDOW_HEIGHT);
+        
         return canvas;
     }
 	
